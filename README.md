@@ -1,2 +1,8 @@
-# slider
-JS slider
+# Slider
+## About
+Simple slider js plugin
+## Tutorial
+### Install
+### Basic
+### Advanced
+## FAQ
