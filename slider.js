@@ -9,11 +9,11 @@ var Slider = {
             node += '<div id="' + this.imageId + i + '" style="background: url(' + image.src + ') no-repeat center;' +
                 'background-size:' + (image.size || 'cover') + ';transition-duration:' +
                 this.transition.duration + ';position:absolute;width:100%;height:100%;display:none;">' +
-                '<a href="' + (image.headerLink || '#') + '" class="' + this.headerClass + '">' + image.header + '</a>' +
-                '<a href="' + (image.commentLink || '#') + '" class="' + this.commentClass + '">' + image.comment + '</a></div>';
+                '<a href="' + (image.headerLink || '') + '" class="' + this.headerClass + '">' + (image.header || '') + '</a>' +
+                '<a href="' + (image.commentLink || '') + '" class="' + this.commentClass + '">' + (image.comment || '') + '</a></div>';
         }
 
-        if (this.buttons.display) {
+        if (this.buttons) {
             for (var i = 0; i < 2; i++) {
                 var button = '<img class="' + this.buttons.class + '" src="' + this.buttons[i == 0 ? 'prevImage' : 'nextImage'] +
                     '" onclick="Slider.change(\'' + (i == 0 ? 'prev' : 'next') + '\')" style="' +
@@ -21,7 +21,7 @@ var Slider = {
                 node += button;
             }
         }
-        if (this.directButtons.display) {
+        if (this.directButtons) {
             var button = '<div id="' + this.directButtons.containerId + '">';
             for (var i = 0; i < this.images.length; i++) {
                 button += '<img id="' + this.directButtons.containerId + i + '" src="' +
@@ -30,7 +30,7 @@ var Slider = {
             button += '</div>';
             node += button;
         }
-        if (this.progressbar.display) {
+        if (this.progressbar) {
             node += '<style>@keyframes progressbar { from {width: 0;} to {width: 100%;}}</style><div id="' +
                 Slider.progressbar.id + '" style="width:0;transition: width ' + (Slider.delay / 1000) + 's linear;"></div>';
         }
@@ -84,12 +84,12 @@ var Slider = {
             element.style.display = 'block';
         }
         Slider.active = next;
-        if (this.progressbar.display) { Slider.updateProgressbar(); }
+        if (this.progressbar) { Slider.updateProgressbar(); }
         Slider.updateDirectButtons();
     },
 
     updateDirectButtons: function() {
-        if (Slider.directButtons.display) {
+        if (Slider.directButtons) {
             for (var i = 0; i < Slider.images.length; i++) {
                 var button = document.getElementById(Slider.directButtons.containerId + i);
                 button.src = i == Slider.active ? Slider.directButtons.active : Slider.directButtons.inactive;
@@ -102,7 +102,7 @@ var Slider = {
         p.style.animation = 'none';
         p.parentElement.removeChild(p);
         Slider.parent.appendChild(p);
-        p.style.animation = 'progressbar 5s infinite linear';
+        p.style.animation = 'progressbar ' + (Slider.delay / 1000) + 's infinite linear';
     },
 
     images: [],
@@ -122,21 +122,18 @@ var Slider = {
     },
 
     buttons: {
-        display: true,
         prevImage: 'img/prevButton.svg',
         nextImage: 'img/nextButton.svg',
         class: 'sliderButtons'
     },
 
     directButtons: {
-        display: true,
         active: 'img/buttonActive.svg',
         inactive: 'img/buttonInactive.svg',
         containerId: 'sliderDirectButtons'
     },
 
     progressbar: {
-        display: true,
         id: 'progressbar'
     },
 
